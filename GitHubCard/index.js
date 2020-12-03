@@ -1,9 +1,10 @@
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+//code at bottom of page 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +29,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -58,3 +59,74 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
+import axios from 'axios';
+console.log(axios);
+const axdata = axios.get("https://api.github.com/users/jcsnider431")
+.then((res)=>{
+  const data = res.data;
+  console.log(data);
+});
+// .catch((err)=>{
+//   console.log(err);
+// });
+
+function card(object){
+const cardDiv = document.createElement('div');
+const img = document.createElement('img');
+const infoDiv= document.createElement('div');
+const header = document.createElement('h3');
+const para1 = document.createElement('p');
+const para2 = document.createElement('p');
+const para3 = document.createElement('p');
+const link = document.createElement('a');
+const para4 = document.createElement('p');
+const para5 = document.createElement('p');
+const para6 = document.createElement('p');
+cardDiv.classList.add('card');
+infoDiv.classList.add('card-info');
+header.classList.add('name');
+para1.classList.add('username');
+
+
+img.src = object.data.avatar_url;
+header.textContent = object.data.name;
+para1.textContent = object.data.login;
+para2.textContent = `Location: ${object.data.location}`;
+para3.textContent ='Profile: ';
+link.textContent = object.data.html_url;
+para4.textContent = `Followers: ${object.data.followers}`;
+para5.textContent = `Following: ${object.data.following}`;
+para6.textContent = `Bio: ${object.data.bio}`;
+
+
+cardDiv.appendChild(img);
+cardDiv.appendChild(infoDiv);
+infoDiv.appendChild(header);
+infoDiv.appendChild(para1);
+infoDiv.appendChild(para2);
+infoDiv.appendChild(para3);
+para3.appendChild(link);
+infoDiv.appendChild(para4);
+infoDiv.appendChild(para5);
+infoDiv.appendChild(para6);
+
+return cardDiv;
+
+}
+
+
+const cards = document.querySelector('.cards');
+axios.get("https://api.github.com/users/jcsnider431")
+.then((res)=>{
+  const newCard = card(res);
+  cards.appendChild(newCard);
+})
+followersArray.forEach(person =>{
+  axios.get(`https://api.github.com/users/${person}`)
+  .then((result)=> {
+    cards.appendChild(card(result));
+  })
+ 
+
+})
