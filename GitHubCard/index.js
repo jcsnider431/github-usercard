@@ -62,7 +62,7 @@ const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigkne
 
 import axios from 'axios';
 console.log(axios);
-const axdata = axios.get("https://api.github.com/users/jcsnider431")
+axios.get("https://api.github.com/users/jcsnider431")
 .then((res)=>{
   const data = res.data;
   console.log(data);
@@ -87,19 +87,16 @@ cardDiv.classList.add('card');
 infoDiv.classList.add('card-info');
 header.classList.add('name');
 para1.classList.add('username');
-
-
 img.src = object.data.avatar_url;
 header.textContent = object.data.name;
 para1.textContent = object.data.login;
 para2.textContent = `Location: ${object.data.location}`;
 para3.textContent ='Profile: ';
-link.textContent = object.data.html_url;
+link.innerHTML = object.data.html_url;
 para4.textContent = `Followers: ${object.data.followers}`;
 para5.textContent = `Following: ${object.data.following}`;
 para6.textContent = `Bio: ${object.data.bio}`;
-
-
+link.setAttribute("href",object.data.html_url);
 cardDiv.appendChild(img);
 cardDiv.appendChild(infoDiv);
 infoDiv.appendChild(header);
@@ -113,7 +110,7 @@ infoDiv.appendChild(para6);
 
 return cardDiv;
 
-}
+};
 
 
 const cards = document.querySelector('.cards');
@@ -121,7 +118,7 @@ axios.get("https://api.github.com/users/jcsnider431")
 .then((res)=>{
   const newCard = card(res);
   cards.appendChild(newCard);
-})
+});
 followersArray.forEach(person =>{
   axios.get(`https://api.github.com/users/${person}`)
   .then((result)=> {
@@ -129,4 +126,4 @@ followersArray.forEach(person =>{
   })
  
 
-})
+});
